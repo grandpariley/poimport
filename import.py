@@ -1,10 +1,10 @@
 import csv
 import json
 import os
-import time
 
 import numpy as np
 import quantstats as qs
+import yfinance as yf
 
 
 def get_companies():
@@ -25,23 +25,31 @@ def save_to_file(d, file_index):
 
 def save_company_data(companies):
     infos = []
-    file_index, count_enough_info, count_not_enough_info = 0, 0, 0
+    file_index = 0
     for company in companies:
         print("Gathering output for " + company)
-        time.sleep(1)  # so I don't overload yahoo finance
         stock = qs.utils.download_returns(company)
         rt = qs.stats.avg_return(stock)
         cvar = qs.stats.cvar(stock)
         var = qs.stats.var(stock)
         if np.isnan(rt) or np.isnan(cvar) or np.isnan(var):
             continue
+        ticker = yf.Ticker(company)
+        environment, social, governance = float('nan'), float('nan'), float('nan')
+        if ticker.sustainability is not None:
+            environment = ticker.sustainability.get('Value').get('environmentScore')
+            governance = ticker.sustainability.get('Value').get('governanceScore')
+            social = ticker.sustainability.get('Value').get('socialScore')
         infos.append({
             'ticker': company,
             'return': rt,
             'cvar': cvar,
-            'var': var
+            'var': var,
+            'environment': environment,
+            'governance': governance,
+            'social': social,
         })
-        if len(infos) > 100:
+        if len(infos) > 30:
             print("Dumping to file")
             save_to_file(infos, file_index)
             file_index += 1
