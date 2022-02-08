@@ -45,11 +45,11 @@ def save_company_data(companies):
             'return': rt,
             'cvar': cvar,
             'var': var,
-            'environment': environment,
-            'governance': governance,
-            'social': social,
+            'environment': None if np.isnan(environment) else environment,
+            'governance': None if np.isnan(governance) else governance,
+            'social': None if np.isnan(social) else social,
         })
-        if len(infos) > 30:
+        if len(infos) > 200:
             print("Dumping to file")
             save_to_file(infos, file_index)
             file_index += 1
