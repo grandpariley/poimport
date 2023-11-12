@@ -28,9 +28,8 @@ def save_company_data(companies):
     file_index = 0
     for company in companies:
         print("Gathering output for " + company)
-        # try:
-        if 1 == 1:
-            stock = qs.utils.download_returns(company, period="1mo")
+        try:
+            stock = qs.utils.download_returns(company, period="5d")
             if stock.empty:
                 print("delisted stock")
                 continue
@@ -63,13 +62,8 @@ def save_company_data(companies):
                 'governance': None if governance is None or np.isnan(governance) else governance,
                 'social': None if social is None or np.isnan(social) else social,
             }
-        # except:
-        #     continue
-        # if len(infos) > 1:
-        #     print("Dumping to file")
-        #     save_to_file(infos, file_index)
-        #     file_index += 1
-        #     infos = []
+        except:
+            continue
     save_to_file(infos, file_index)
 
 
