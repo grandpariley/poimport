@@ -1,10 +1,14 @@
-import csv
-import json
-import os
+import csv, json, os, datetime
 
 import numpy as np
+import pandas as pd
+import yahooquery as yq
 import quantstats as qs
-from yahooquery import Ticker
+
+# https://www.bankofcanada.ca/rates/interest-rates/corra/
+CANADA_RISK_FREE_RATE = 5.04
+# 1Y rate of return for S&P/TSX Composite Index
+TSX_EXPECTED_RETURN = 1.61
 
 
 def get_companies():
@@ -19,52 +23,79 @@ def get_companies():
 def save_to_file(d, file_index):
     if not os.path.exists("output"):
         os.mkdir("output")
-    with open('output/data' + str(file_index) + '.json', 'w') as output:
+    with open('output/data-' + str(file_index) + '.json', 'w') as output:
         json.dump(d, output)
+
+
+def get_risk(symbol):
+    returns = qs.utils.download_returns(symbol)
+    if returns is None or not isinstance(returns, pd.Series):
+        raise ValueError('cannot find risk - ' + symbol)
+    return qs.stats.var(returns), qs.stats.cvar(returns)
+
+
+def get_esg(symbol, ticker):
+    environment, social, governance = float('nan'), float('nan'), float('nan')
+    if not isinstance(ticker.esg_scores.get(symbol), str):
+        environment = ticker.esg_scores.get(symbol).get('environmentScore')
+        governance = ticker.esg_scores.get(symbol).get('governanceScore')
+        social = ticker.esg_scores.get(symbol).get('socialScore')
+    return environment, governance, social
+
+
+def get_capm_expected_return(symbol, ticker):
+    if not isinstance(ticker.summary_detail.get(symbol), dict):
+        raise ValueError('no expected return - ' + symbol)
+    beta = ticker.summary_detail.get(symbol).get('beta')
+    if beta is None or np.isnan(beta):
+        raise ValueError('no expected return - ' + symbol)
+    return CANADA_RISK_FREE_RATE + (
+            ticker.summary_detail.get(symbol).get('beta') * (TSX_EXPECTED_RETURN - CANADA_RISK_FREE_RATE))
+
+
+def get_price(symbol, ticker):
+    if 'regularMarketPreviousClose' not in ticker.price.get(symbol).keys() or np.isnan(
+            ticker.price.get(symbol).get('regularMarketPreviousClose')):
+        raise ValueError('no price - ' + symbol)
+    price = ticker.price.get(symbol).get('regularMarketPreviousClose')
+    return price
+
+
+def get_symbol(company):
+    result = yq.search(company, country='canada', first_quote=True)
+    if 'symbol' not in result.keys():
+        raise ValueError('symbol not found - ' + company)
+    return result['symbol']
 
 
 def save_company_data(companies):
     infos = {}
-    file_index = 0
+    success_count = 0
     for company in companies:
         print("Gathering output for " + company)
         try:
-            stock = qs.utils.download_returns(company, period="5d")
-            if stock.empty:
-                print("delisted stock")
-                continue
-            rt = qs.stats.expected_return(stock)
-            cvar = qs.stats.cvar(stock)
-            var = qs.stats.var(stock)
-            if np.isnan(rt) or np.isnan(cvar) or np.isnan(var):
-                print("not a number " + str(rt) + " | " + str(cvar) + " | " + str(var))
-                continue
-            ticker = Ticker(company)
-            environment, social, governance = float('nan'), float('nan'), float('nan')
-            if 'regularMarketPreviousClose' not in ticker.price.get(company).keys():
-                print("no price")
-                continue
-            price = ticker.price.get(company)['regularMarketPreviousClose']
-            if np.isnan(price):
-                print("no price " + str(price))
-                continue
-            if not isinstance(ticker.esg_scores.get(company), str):
-                environment = ticker.esg_scores.get(company).get('environmentScore')
-                governance = ticker.esg_scores.get(company).get('governanceScore')
-                social = ticker.esg_scores.get(company).get('socialScore')
-            infos[company] = {
-                'ticker': company,
+            symbol = get_symbol(company)
+            ticker = yq.Ticker(symbol)
+            price = get_price(symbol, ticker)
+            expected_return = get_capm_expected_return(symbol, ticker)
+            cvar, var = get_risk(symbol)
+            environment, governance, social = get_esg(symbol, ticker)
+            infos[symbol] = {
+                'ticker': symbol,
                 'price': price,
-                'return': rt,
+                'return': expected_return,
                 'cvar': cvar,
                 'var': var,
                 'environment': None if environment is None or np.isnan(environment) else environment,
                 'governance': None if governance is None or np.isnan(governance) else governance,
                 'social': None if social is None or np.isnan(social) else social,
             }
-        except:
+            success_count += 1
+            print("currently " + str(success_count) + " valid data points")
+        except ValueError as e:
+            print(e)
             continue
-    save_to_file(infos, file_index)
+    save_to_file(infos, success_count)
 
 
 def main():
