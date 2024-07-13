@@ -1,9 +1,13 @@
-import csv, json, os, datetime
+import json
+import os
 
 import numpy as np
 import pandas as pd
-import yahooquery as yq
 import quantstats as qs
+import requests
+import yahooquery as yq
+
+from cache import file_cache
 
 # https://www.bankofcanada.ca/rates/interest-rates/corra/
 CANADA_RISK_FREE_RATE = 5.04
@@ -11,13 +15,15 @@ CANADA_RISK_FREE_RATE = 5.04
 TSX_EXPECTED_RETURN = 1.61
 
 
+@file_cache('companies.json')
 def get_companies():
-    companies = []
-    with open('TSX-tickers.csv', 'r') as tsx_file:
-        tsx = csv.reader(tsx_file)
-        for company in tsx:
-            companies.append(company[0])
-    return companies
+    companies = set()
+    tsx_raw = requests.get("https://www.tsx.com/json/company-directory/search/tsx/^*").json()
+    for tsx in tsx_raw['results']:
+        companies.add(tsx['symbol'])
+        for instrument in tsx['instruments']:
+            companies.add(instrument['symbol'])
+    return list(companies)
 
 
 def save_to_file(d, file_index):
@@ -49,8 +55,7 @@ def get_capm_expected_return(symbol, ticker):
     beta = ticker.summary_detail.get(symbol).get('beta')
     if beta is None or np.isnan(beta):
         raise ValueError('no expected return - ' + symbol)
-    return CANADA_RISK_FREE_RATE + (
-            ticker.summary_detail.get(symbol).get('beta') * (TSX_EXPECTED_RETURN - CANADA_RISK_FREE_RATE))
+    return CANADA_RISK_FREE_RATE + (beta * (TSX_EXPECTED_RETURN - CANADA_RISK_FREE_RATE))
 
 
 def get_price(symbol, ticker):
