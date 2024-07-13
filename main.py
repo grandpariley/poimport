@@ -29,10 +29,10 @@ def get_companies():
     return list(companies)
 
 
-def save_to_file(d, file_index):
+def save_to_file(d):
     if not os.path.exists("output"):
         os.mkdir("output")
-    with open('output/data-' + str(file_index) + '.json', 'w') as output:
+    with open('output/data.json', 'w') as output:
         json.dump(d, output)
 
 
@@ -103,7 +103,7 @@ def save_company_data(companies):
         except ValueError as e:
             print(e)
             continue
-    save_to_file(infos, success_count)
+    save_to_file(infos)
 
 
 def main():
