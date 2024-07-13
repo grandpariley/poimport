@@ -10,9 +10,12 @@ import yahooquery as yq
 from cache import file_cache
 
 # https://www.bankofcanada.ca/rates/interest-rates/corra/
-CANADA_RISK_FREE_RATE = 5.04
+# updated July 13, 2024
+CANADA_RISK_FREE_RATE = 4.80
 # 1Y rate of return for S&P/TSX Composite Index
-TSX_EXPECTED_RETURN = 1.61
+# https://ycharts.com/indices/%5ETSX
+# updated July 13, 2024
+TSX_EXPECTED_RETURN = 16.69
 
 
 @file_cache('companies.json')
