@@ -20,23 +20,38 @@ TSX_EXPECTED_RETURN = 16.69
 
 
 @file_cache('companies.json')
-def get_companies():
+def get_companies_from_tsx():
     companies = set()
     tsx_raw = requests.get("https://www.tsx.com/json/company-directory/search/tsx/^*").json()
     for tsx in tsx_raw['results']:
         companies.add(tsx['symbol'])
         for instrument in tsx['instruments']:
             companies.add(instrument['symbol'])
+    return companies
+
+
+def get_companies():
+    companies = get_companies_from_tsx()
+    if os.path.exists('output/data.json'):
+        with open('output/data.json', 'r') as json_file:
+            data = dict(json.load(json_file))
+            already_saved_companies = data.keys()
+            companies = filter(lambda c: c not in already_saved_companies, companies)
     return list(sorted(companies))
 
 
 def save_to_file(d):
+    print('saving...')
     if not d:
         return
     if not os.path.exists("output"):
         os.mkdir("output")
-    with open('output/data.json', 'w') as output:
-        json.dump(d, output)
+    existing = dict()
+    if os.path.exists('output/data.json'):
+        with open('output/data.json', 'r') as existing_file:
+            existing = dict(json.load(existing_file))
+    with open('output/data.json', 'w') as file:
+        json.dump(d | existing, file)
 
 
 def get_risk(symbol):
@@ -82,6 +97,7 @@ def get_symbol(company):
 def get_company_data(companies):
     data = {}
     success_count = 0
+    esg_count = 0
     failed_companies = []
     for company in companies:
         print("Gathering output for " + company)
@@ -103,15 +119,29 @@ def get_company_data(companies):
                 'social': None if social is None or np.isnan(social) else social,
             }
             success_count += 1
-            print("currently " + str(success_count) + " valid data points")
+            if environment or governance or social:
+                esg_count += 1
+            print("currently " + str(success_count) + " valid data points with " + str(esg_count) + ' esg data points')
         except ValueError as e:
-            print(e)
-            if str(e) == 'Expecting value: line 1 column 1 (char 0)':
-                failed_companies.append(company)
-                print('adding "' + company + '" to failed companies. currently ' + str(len(failed_companies)) + ' failed fetches')
-                time.sleep(30)
+            failed_companies = handle_error(company, e, failed_companies)
             continue
+        except ConnectionError as e:
+            failed_companies = handle_error(company, e, failed_companies)
+            continue
+        except KeyboardInterrupt:
+            save_to_file(data)
+
     return data, failed_companies
+
+
+def handle_error(company, e, failed_companies):
+    print(e)
+    if isinstance(e, ConnectionError) or str(e) == 'Expecting value: line 1 column 1 (char 0)':
+        failed_companies.append(company)
+        print('adding "' + company + '" to failed companies. currently ' +
+              str(len(failed_companies)) + ' failed fetches')
+        time.sleep(30)
+    return failed_companies
 
 
 def save_company_data(companies):
