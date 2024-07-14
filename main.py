@@ -128,6 +128,9 @@ def get_company_data(companies):
         except ConnectionError as e:
             failed_companies = handle_error(company, e, failed_companies)
             continue
+        except TimeoutError as e:
+            failed_companies = handle_error(company, e, failed_companies)
+            continue
         except KeyboardInterrupt:
             save_to_file(data)
 
@@ -136,7 +139,7 @@ def get_company_data(companies):
 
 def handle_error(company, e, failed_companies):
     print(e)
-    if isinstance(e, ConnectionError) or str(e) == 'Expecting value: line 1 column 1 (char 0)':
+    if isinstance(e, (ConnectionError, TimeoutError)) or str(e) == 'Expecting value: line 1 column 1 (char 0)':
         failed_companies.append(company)
         print('adding "' + company + '" to failed companies. currently ' +
               str(len(failed_companies)) + ' failed fetches')
