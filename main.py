@@ -1,5 +1,6 @@
 import json
 import os
+import time
 
 import numpy as np
 import pandas as pd
@@ -26,10 +27,12 @@ def get_companies():
         companies.add(tsx['symbol'])
         for instrument in tsx['instruments']:
             companies.add(instrument['symbol'])
-    return list(companies)
+    return list(sorted(companies))
 
 
 def save_to_file(d):
+    if not d:
+        return
     if not os.path.exists("output"):
         os.mkdir("output")
     with open('output/data.json', 'w') as output:
@@ -76,9 +79,10 @@ def get_symbol(company):
     return result['symbol']
 
 
-def save_company_data(companies):
-    infos = {}
+def get_company_data(companies):
+    data = {}
     success_count = 0
+    failed_companies = []
     for company in companies:
         print("Gathering output for " + company)
         try:
@@ -88,7 +92,7 @@ def save_company_data(companies):
             expected_return = get_capm_expected_return(symbol, ticker)
             cvar, var = get_risk(symbol)
             environment, governance, social = get_esg(symbol, ticker)
-            infos[symbol] = {
+            data[symbol] = {
                 'ticker': symbol,
                 'price': price,
                 'return': expected_return,
@@ -102,13 +106,28 @@ def save_company_data(companies):
             print("currently " + str(success_count) + " valid data points")
         except ValueError as e:
             print(e)
+            if str(e) == 'Expecting value: line 1 column 1 (char 0)':
+                failed_companies.append(company)
+                print('adding "' + company + '" to failed companies. currently ' + str(len(failed_companies)) + ' failed fetches')
+                time.sleep(30)
             continue
-    save_to_file(infos)
+    return data, failed_companies
+
+
+def save_company_data(companies):
+    data, failed_companies = get_company_data(companies)
+    attempts = 1
+    while len(failed_companies) > 0 and attempts < 20:
+        print('attempt: ' + str(attempts) + ' | number of failed fetches: ' + str(len(failed_companies)))
+        new_data, new_failed_companies = get_company_data(failed_companies)
+        data = data | new_data
+        failed_companies = new_failed_companies
+    return data
 
 
 def main():
     companies = get_companies()
-    save_company_data(companies)
+    save_to_file(save_company_data(companies))
 
 
 if __name__ == "__main__":
