@@ -140,7 +140,6 @@ def handle_error(company, e, failed_companies):
         failed_companies.append(company)
         print('adding "' + company + '" to failed companies. currently ' +
               str(len(failed_companies)) + ' failed fetches')
-        time.sleep(30)
     return failed_companies
 
 
