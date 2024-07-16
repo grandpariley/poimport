@@ -138,15 +138,16 @@ def get_company_data(companies, retry, no_data):
             print("currently " + str(success_count) + " valid data points with " + str(esg_count) + ' esg data points')
             save_data(data)
         except ValueError as e:
+            print(e)
             if str(e) == 'Expecting value: line 1 column 1 (char 0)':
                 retry.append(company)
                 print('adding "' + company + '" to retries. currently ' + str(len(retry)) + ' retries in the queue')
             else:
                 no_data.append(company)
                 save(no_data, 'no_data.json')
-                print(e)
             continue
-        except TimeoutError | requests.exceptions.RequestException:
+        except Exception as e:
+            print(e)
             retry.append(company)
             print('adding "' + company + '" to retries. currently ' + str(len(retry)) + ' retries in the queue')
             continue
