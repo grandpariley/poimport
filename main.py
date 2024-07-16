@@ -19,6 +19,18 @@ CANADA_RISK_FREE_RATE = 4.80
 TSX_EXPECTED_RETURN = 16.69
 
 
+def save(obj, filename):
+    with open(filename, 'w') as json_file:
+        json.dump(obj, json_file)
+
+
+def fetch(filename):
+    if not os.path.exists(filename):
+        return None
+    with open(filename, 'r') as json_file:
+        return json.load(json_file)
+
+
 @file_cache('companies.json')
 def get_companies_from_tsx():
     companies = set()
@@ -32,37 +44,40 @@ def get_companies_from_tsx():
 
 def get_companies():
     companies = get_companies_from_tsx()
-    if os.path.exists('output/data.json'):
-        with open('output/data.json', 'r') as json_file:
-            data = dict(json.load(json_file))
-            already_saved_companies = data.keys()
-            companies = filter(lambda c: c not in already_saved_companies, companies)
+    data = fetch('output/data.json')
+    if data:
+        companies = filter(lambda c: c not in dict(data).keys(), companies)
+    no_data = fetch('no_data.json')
+    if no_data:
+        companies = filter(lambda c: c not in list(no_data), companies)
     return list(sorted(companies))
 
 
-def save_to_file(d):
-    print('saving...')
-    if not d:
+def save_data(data):
+    if not data:
         return
     if not os.path.exists("output"):
         os.mkdir("output")
-    existing = dict()
-    if os.path.exists('output/data.json'):
-        with open('output/data.json', 'r') as existing_file:
-            existing = dict(json.load(existing_file))
-    with open('output/data.json', 'w') as file:
-        json.dump(d | existing, file)
+    existing = fetch('output/data.json')
+    if existing:
+        save(data | dict(existing), 'output/data.json')
+    else:
+        save(data, 'output/data.json')
 
 
 def get_risk(symbol):
     returns = qs.utils.download_returns(symbol)
     if returns is None or not isinstance(returns, pd.Series):
         raise ValueError('cannot find risk - ' + symbol)
-    return qs.stats.var(returns), qs.stats.cvar(returns)
+    var = qs.stats.var(returns)
+    cvar = qs.stats.cvar(returns)
+    if var is None or cvar is None:
+        raise ValueError('cannot find risk - ' + symbol)
+    return var, cvar
 
 
 def get_esg(symbol, ticker):
-    environment, social, governance = float('nan'), float('nan'), float('nan')
+    environment, social, governance = np.nan, np.nan, np.nan
     if not isinstance(ticker.esg_scores.get(symbol), str):
         environment = ticker.esg_scores.get(symbol).get('environmentScore')
         governance = ticker.esg_scores.get(symbol).get('governanceScore')
@@ -94,11 +109,10 @@ def get_symbol(company):
     return result['symbol']
 
 
-def get_company_data(companies):
+def get_company_data(companies, retry, no_data):
     data = {}
     success_count = 0
     esg_count = 0
-    failed_companies = []
     for company in companies:
         print("Gathering output for " + company)
         try:
@@ -119,47 +133,37 @@ def get_company_data(companies):
                 'social': None if social is None or np.isnan(social) else social,
             }
             success_count += 1
-            if environment or governance or social:
+            if data[symbol]['environment'] or data[symbol]['governance'] or data[symbol]['social']:
                 esg_count += 1
             print("currently " + str(success_count) + " valid data points with " + str(esg_count) + ' esg data points')
+            save_data(data)
         except ValueError as e:
-            failed_companies = handle_error(company, e, failed_companies)
+            no_data.append(company)
+            save(no_data, 'no_data.json')
+            print(e)
             continue
-        except ConnectionError as e:
-            failed_companies = handle_error(company, e, failed_companies)
+        except TimeoutError | requests.exceptions.RequestException:
+            retry.append(company)
+            print('adding "' + company + '" to retries. currently ' + str(len(retry)) + ' retries in the queue')
             continue
-        except TimeoutError as e:
-            failed_companies = handle_error(company, e, failed_companies)
-            continue
-        except KeyboardInterrupt:
-            save_to_file(data)
-
-    return data, failed_companies
-
-
-def handle_error(company, e, failed_companies):
-    print(e)
-    if isinstance(e, (ConnectionError, TimeoutError)) or str(e) == 'Expecting value: line 1 column 1 (char 0)':
-        failed_companies.append(company)
-        print('adding "' + company + '" to failed companies. currently ' +
-              str(len(failed_companies)) + ' failed fetches')
-    return failed_companies
+    return data, retry, no_data
 
 
 def save_company_data(companies):
-    data, failed_companies = get_company_data(companies)
+    data, retry, no_data = get_company_data(companies, [], [])
+    save(no_data, 'no_data.json')
     attempts = 1
-    while len(failed_companies) > 0 and attempts < 20:
-        print('attempt: ' + str(attempts) + ' | number of failed fetches: ' + str(len(failed_companies)))
-        new_data, new_failed_companies = get_company_data(failed_companies)
+    while len(retry) > 0 and attempts < 20:
+        print('attempt: ' + str(attempts) + ' | number of failed fetches: ' + str(len(retry)))
+        new_data, new_failed_companies, no_data = get_company_data(retry, [], no_data)
         data = data | new_data
-        failed_companies = new_failed_companies
+        retry = new_failed_companies
     return data
 
 
 def main():
     companies = get_companies()
-    save_to_file(save_company_data(companies))
+    save_company_data(companies)
 
 
 if __name__ == "__main__":

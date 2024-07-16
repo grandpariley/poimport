@@ -1,3 +1,2 @@
 .idea
-output/data*.json
-companies.json
+*.json
