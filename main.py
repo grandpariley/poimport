@@ -60,7 +60,7 @@ def save_data(data):
         os.mkdir("output")
     existing = fetch('output/data.json')
     if existing:
-        save(data | dict(existing), 'output/data.json')
+        save(dict(existing) | data, 'output/data.json')
     else:
         save(data, 'output/data.json')
 
@@ -144,7 +144,11 @@ def get_company_data(companies, retry, no_data):
                 print('adding "' + company + '" to retries. currently ' + str(len(retry)) + ' retries in the queue')
             else:
                 no_data.append(company)
-                save(no_data, 'no_data.json')
+                curr_no_data = fetch('no_data.json')
+                if curr_no_data:
+                    save(list(curr_no_data) + no_data, 'no_data.json')
+                else:
+                    save(no_data, 'no_data.json')
             continue
         except Exception as e:
             print(e)
