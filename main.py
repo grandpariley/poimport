@@ -146,9 +146,9 @@ def get_company_data(companies, retry, no_data):
                 no_data.append(company)
                 curr_no_data = fetch('no_data.json')
                 if curr_no_data:
-                    save(list(curr_no_data) + no_data, 'no_data.json')
+                    save(list(set(list(curr_no_data) + no_data)), 'no_data.json')
                 else:
-                    save(no_data, 'no_data.json')
+                    save(list(set(no_data)), 'no_data.json')
             continue
         except Exception as e:
             print(e)
@@ -162,7 +162,7 @@ def save_company_data(companies):
     data, retry, no_data = get_company_data(companies, [], [])
     save(no_data, 'no_data.json')
     attempts = 1
-    while len(retry) > 0 and attempts < 20:
+    while len(retry) > 0 and attempts < 5:
         print('attempt: ' + str(attempts) + ' | number of failed fetches: ' + str(len(retry)))
         new_data, new_failed_companies, no_data = get_company_data(retry, [], no_data)
         data = data | new_data
