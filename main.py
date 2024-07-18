@@ -1,6 +1,5 @@
 import json
 import os
-import time
 
 import numpy as np
 import pandas as pd
@@ -60,7 +59,7 @@ def save_data(data):
         os.mkdir("output")
     existing = fetch('output/data.json')
     if existing:
-        save(dict(existing) | data, 'output/data.json')
+        save({**dict(existing), **data}, 'output/data.json')
     else:
         save(data, 'output/data.json')
 
@@ -71,7 +70,7 @@ def get_risk(symbol):
         raise ValueError('cannot find risk - ' + symbol)
     var = qs.stats.var(returns)
     cvar = qs.stats.cvar(returns)
-    if var is None or cvar is None:
+    if var is None or np.isnan(var) or cvar is None or np.isnan(cvar):
         raise ValueError('cannot find risk - ' + symbol)
     return var, cvar
 
@@ -135,8 +134,8 @@ def get_company_data(companies, retry, no_data):
             success_count += 1
             if data[symbol]['environment'] or data[symbol]['governance'] or data[symbol]['social']:
                 esg_count += 1
-            print("currently " + str(success_count) + " valid data points with " + str(esg_count) + ' esg data points')
             save_data(data)
+            print("currently " + str(success_count) + " valid data points with " + str(esg_count) + ' esg data points')
         except ValueError as e:
             print(e)
             if str(e) == 'Expecting value: line 1 column 1 (char 0)':
@@ -165,7 +164,7 @@ def save_company_data(companies):
     while len(retry) > 0 and attempts < 5:
         print('attempt: ' + str(attempts) + ' | number of failed fetches: ' + str(len(retry)))
         new_data, new_failed_companies, no_data = get_company_data(retry, [], no_data)
-        data = data | new_data
+        data = {**data, **new_data}
         retry = new_failed_companies
     return data
 
