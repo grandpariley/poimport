@@ -105,7 +105,14 @@ def get_symbol(company):
     result = yq.search(company, country='canada', first_quote=True)
     if 'symbol' not in result.keys():
         raise ValueError('symbol not found - ' + company)
-    return result['symbol']
+    symbol = result['symbol']
+    if symbol != company:
+        with open('companies.json', 'r') as json_file:
+            companies = list(json.load(json_file))
+            companies[companies.index(company)] = symbol
+        with open('companies.json', 'w') as json_file:
+            json.dump(companies, json_file)
+    return symbol
 
 
 def get_company_data(companies, retry, no_data):
