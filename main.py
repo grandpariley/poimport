@@ -94,8 +94,9 @@ def get_capm_expected_return(symbol, ticker):
 
 
 def get_price(symbol, ticker):
-    if 'regularMarketPreviousClose' not in ticker.price.get(symbol).keys() or np.isnan(
-            ticker.price.get(symbol).get('regularMarketPreviousClose')):
+    if (not isinstance(ticker.price.get(symbol), dict)
+            or 'regularMarketPreviousClose' not in ticker.price.get(symbol).keys()
+            or np.isnan(ticker.price.get(symbol).get('regularMarketPreviousClose'))):
         raise ValueError('no price - ' + symbol)
     price = ticker.price.get(symbol).get('regularMarketPreviousClose')
     return price
@@ -104,6 +105,11 @@ def get_price(symbol, ticker):
 def get_symbol(company):
     result = yq.search(company, country='canada', first_quote=True)
     if 'symbol' not in result.keys():
+        with open('companies.json', 'r') as json_file:
+            companies = list(json.load(json_file))
+            companies.remove(company)
+        with open('companies.json', 'w') as json_file:
+            json.dump(companies, json_file)
         raise ValueError('symbol not found - ' + company)
     symbol = result['symbol']
     if symbol != company:
@@ -145,16 +151,12 @@ def get_company_data(companies, retry, no_data):
             print("currently " + str(success_count) + " valid data points with " + str(esg_count) + ' esg data points')
         except ValueError as e:
             print(e)
-            if str(e) == 'Expecting value: line 1 column 1 (char 0)':
-                retry.append(company)
-                print('adding "' + company + '" to retries. currently ' + str(len(retry)) + ' retries in the queue')
+            no_data.append(company)
+            curr_no_data = fetch('no_data.json')
+            if curr_no_data:
+                save(list(set(list(curr_no_data) + no_data)), 'no_data.json')
             else:
-                no_data.append(company)
-                curr_no_data = fetch('no_data.json')
-                if curr_no_data:
-                    save(list(set(list(curr_no_data) + no_data)), 'no_data.json')
-                else:
-                    save(list(set(no_data)), 'no_data.json')
+                save(list(set(no_data)), 'no_data.json')
             continue
         except Exception as e:
             print(e)
