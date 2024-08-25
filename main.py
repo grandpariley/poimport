@@ -270,11 +270,11 @@ def get_extreme_values(in_file):
 
 
 def main():
-    # companies = get_companies()
-    # save_company_data(companies)
+    companies = get_companies()
+    save_company_data(companies)
     scale()
-    # index = ['GSPTSE']
-    # save_company_data(index, 'index-', False)
+    index = ['GSPTSE']
+    save_company_data(index, 'index-', False)
     scale(out_file='output/index-data.json')
 
 
