@@ -132,6 +132,7 @@ def get_company_data(companies, retry, no_data, fileprefix='', refresh_cache=Tru
     esg_count = 0
     for company in companies:
         print("Gathering output for " + company)
+        symbol = company
         try:
             symbol = get_symbol(company, refresh_cache)
             ticker = yq.Ticker(symbol)
@@ -156,7 +157,13 @@ def get_company_data(companies, retry, no_data, fileprefix='', refresh_cache=Tru
             print("currently " + str(success_count) + " valid data points with " + str(esg_count) + ' esg data points')
         except ValueError as e:
             print(e)
+            if str(e) == 'Expecting value: line 1 column 1 (char 0)':
+                retry.append(company)
+                print('adding "' + company + '" to retries. currently ' + str(len(retry)) + ' retries in the queue')
+                continue
             no_data.append(company)
+            if symbol and symbol != company:
+                no_data.append(symbol)
             curr_no_data = fetch('no_data.json')
             if curr_no_data:
                 save(list(set(list(curr_no_data) + no_data)), 'no_data.json')
