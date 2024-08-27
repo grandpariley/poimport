@@ -1,6 +1,6 @@
 import json
-import math
 import os
+from shutil import copyfile
 
 import numpy as np
 import pandas as pd
@@ -10,14 +10,15 @@ import yahooquery as yq
 
 from cache import file_cache
 from scale import scale
+from validation import validate
 
 # https://www.bankofcanada.ca/rates/interest-rates/corra/
 # updated July 13, 2024
-CANADA_RISK_FREE_RATE = 4.80
+CANADA_RISK_FREE_RATE = 4.5300
 # 1Y rate of return for S&P/TSX Composite Index
 # https://ycharts.com/indices/%5ETSX
-# updated July 13, 2024
-TSX_EXPECTED_RETURN = 16.69
+# updated August 26th, 2024
+TSX_EXPECTED_RETURN = 20.98
 
 
 def save(obj, filename):
@@ -61,9 +62,8 @@ def save_data(data, fileprefix=''):
         os.mkdir("output")
     existing = fetch('output/' + fileprefix + 'data.json')
     if existing:
-        save({**dict(existing), **data}, 'output/' + fileprefix + 'data.json')
-    else:
-        save(data, 'output/' + fileprefix + 'data.json')
+        data = {**dict(existing), **data}
+    save(data, 'output/' + fileprefix + 'data.json')
 
 
 def get_risk(symbol):
@@ -106,18 +106,12 @@ def get_price(symbol, ticker):
     return price
 
 
-def get_symbol(company, refresh_cache=True):
+def get_symbol(company):
     result = yq.search(company, country='canada', first_quote=True)
     if 'symbol' not in result.keys():
-        if refresh_cache:
-            with open('companies.json', 'r') as json_file:
-                companies = list(json.load(json_file))
-                companies.remove(company)
-            with open('companies.json', 'w') as json_file:
-                json.dump(companies, json_file)
         raise ValueError('symbol not found - ' + company)
     symbol = result['symbol']
-    if symbol != company and refresh_cache:
+    if symbol != company:
         with open('companies.json', 'r') as json_file:
             companies = list(json.load(json_file))
             companies[companies.index(company)] = symbol
@@ -126,21 +120,20 @@ def get_symbol(company, refresh_cache=True):
     return symbol
 
 
-def get_company_data(companies, retry, no_data, fileprefix='', refresh_cache=True):
-    data = {}
+def get_company_data(companies, retry, fileprefix=''):
     success_count = 0
     esg_count = 0
     for company in companies:
         print("Gathering output for " + company)
         symbol = company
         try:
-            symbol = get_symbol(company, refresh_cache)
+            symbol = get_symbol(company)
             ticker = yq.Ticker(symbol)
             price = get_price(symbol, ticker)
             expected_return = get_capm_expected_return(symbol, ticker)
             cvar, var = get_risk(symbol)
             environment, social, governance = get_esg(symbol, ticker)
-            data[symbol] = {
+            d = {
                 'ticker': symbol,
                 'price': price,
                 'return': expected_return,
@@ -151,9 +144,9 @@ def get_company_data(companies, retry, no_data, fileprefix='', refresh_cache=Tru
                 'governance': None if governance is None or np.isnan(governance) else governance,
             }
             success_count += 1
-            if data[symbol]['environment'] or data[symbol]['social'] or data[symbol]['governance']:
+            if d['environment'] or d['social'] or d['governance']:
                 esg_count += 1
-            save_data(data, fileprefix)
+            save_data({symbol: d}, fileprefix)
             print("currently " + str(success_count) + " valid data points with " + str(esg_count) + ' esg data points')
         except ValueError as e:
             print(e)
@@ -161,40 +154,37 @@ def get_company_data(companies, retry, no_data, fileprefix='', refresh_cache=Tru
                 retry.append(company)
                 print('adding "' + company + '" to retries. currently ' + str(len(retry)) + ' retries in the queue')
                 continue
-            no_data.append(company)
-            if symbol and symbol != company:
-                no_data.append(symbol)
+            no_data = [company, symbol]
             curr_no_data = fetch('no_data.json')
             if curr_no_data:
-                save(list(set(list(curr_no_data) + no_data)), 'no_data.json')
-            else:
-                save(list(set(no_data)), 'no_data.json')
+                no_data += curr_no_data
+            save(list(sorted(set(no_data))), 'no_data.json')
             continue
         except Exception as e:
             print(e)
             retry.append(company)
             print('adding "' + company + '" to retries. currently ' + str(len(retry)) + ' retries in the queue')
             continue
-    return data, retry, no_data
+    return retry
 
 
-def save_company_data(companies, fileprefix='', refresh_cache=True):
-    data, retry, no_data = get_company_data(companies, [], [], fileprefix, refresh_cache)
-    save(no_data, fileprefix + 'no_data.json')
-    attempts = 1
-    while len(retry) > 0 and attempts < 5:
-        print('attempt: ' + str(attempts) + ' | number of failed fetches: ' + str(len(retry)))
-        new_data, new_failed_companies, no_data = get_company_data(retry, [], no_data)
-        data = {**data, **new_data}
-        retry = new_failed_companies
-    return data
+def save_company_data(companies, fileprefix=''):
+    attempts = 0
+    while len(companies) > 0:
+        print('attempt: ' + str(attempts) + ' | number of companies: ' + str(len(companies)))
+        failed_companies = get_company_data(companies, [], fileprefix)
+        companies = failed_companies
+        attempts += 1
 
 
 def main():
+    save_company_data(['GSPTSE'], 'index-')
     save_company_data(get_companies())
+    os.mkdir('output/raw')
+    copyfile('output/data.json', 'output/raw/data.json')
     scale()
-    save_company_data(['GSPTSE'], 'index-', False)
-    scale(out_file='output/index-data.json')
+    validate()
+    scale(file='output/index-data.json')
 
 
 if __name__ == "__main__":
