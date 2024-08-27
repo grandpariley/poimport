@@ -38,8 +38,11 @@ def validate_scale():
                     raise ValueError(objective + ' for ' + v['ticker'] + ' too large: ' + str(v[objective]))
                 elif v[objective] < 0:
                     raise ValueError(objective + ' for ' + v['ticker'] + ' too small: ' + str(v[objective]))
-
-
+        for objective in SCALED_OBJECTIVES:
+            if objective_counts[objective]['one'] != 1:
+                raise ValueError(objective + ' must have one maximum')
+            if objective_counts[objective]['zero'] != 1:
+                raise ValueError(objective + ' must have one minimum')
 
 
 
