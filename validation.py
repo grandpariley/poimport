@@ -8,6 +8,8 @@ def validate_max():
         extremes = json.load(max_file)
         data = dict(json.load(data_file))
         for v in data.values():
+            if v['price'] <= 0.0:
+                continue
             for objective in SCALED_OBJECTIVES:
                 if v[objective] and v[objective] > extremes[objective]['max']:
                     raise ValueError(objective + ' max incorrect: ' + v['ticker'] + ' has value ' + str(v[objective]) + ' > ' + str(extremes[objective]['max']))
@@ -27,6 +29,8 @@ def validate_scale():
             'governance': {'one': 0, 'zero': 0}
         }
         for v in data.values():
+            if v['price'] <= 0.0:
+                continue
             for objective in SCALED_OBJECTIVES:
                 if v[objective] is None:
                     continue

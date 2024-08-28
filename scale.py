@@ -10,11 +10,8 @@ MINIMIZE_OBJECTIVES = ['cvar', 'var']
 def standardize(extremes, data, objective):
     if data[objective] is None:
         return None
-    z = float(float(data[objective]) - float(extremes[objective]['min'])) / float(
+    return float(float(data[objective]) - float(extremes[objective]['min'])) / float(
         float(extremes[objective]['max']) - float(extremes[objective]['min']))
-    if objective in MINIMIZE_OBJECTIVES:
-        return 1 - z
-    return z
 
 
 def scale(file='output/data.json', extremes_file='output/data.json'):

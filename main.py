@@ -178,7 +178,7 @@ def save_company_data(companies, fileprefix=''):
 
 
 def main():
-    save_company_data(['GSPTSE'], 'index-')
+    save_company_data(['^GSPTSE'], 'index-')
     save_company_data(get_companies())
     os.mkdir('output/raw')
     copyfile('output/data.json', 'output/raw/data.json')
