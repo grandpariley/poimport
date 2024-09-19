@@ -23,7 +23,8 @@ async def update_data(key, d):
 
 
 async def insert_no_data(nd):
-    if await no_data.estimated_document_count({'symbol': nd}) > 0:
+    if await no_data.count_documents({'symbol': nd}) > 0:
+        print('already added')
         return
     await no_data.insert_one({'symbol': nd})
 

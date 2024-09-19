@@ -39,7 +39,7 @@ async def get_companies():
     companies = get_companies_from_tsx()
     already_found = list(dict(await db.fetch_data()).keys())
     companies = filter(lambda c: c not in already_found, companies)
-    no_data = await fetch_no_data()
+    no_data = list(map(lambda d: d['symbol'], await fetch_no_data()))
     companies = filter(lambda c: c not in no_data, companies)
     return list(sorted(companies))
 
@@ -139,7 +139,7 @@ async def get_company_data(companies):
             await db.insert_data(symbol, d)
             print("currently " + str(success_count) + " valid data points with " + str(esg_count) + ' esg data points')
         except ValueError as e:
-            print(e)
+            print('caught value error: ' + str(e))
             if str(e) == 'Expecting value: line 1 column 1 (char 0)':
                 retry.append(company)
                 print('adding "' + company + '" to retries. currently ' + str(len(retry)) + ' retries in the queue')
