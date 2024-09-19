@@ -1,6 +1,4 @@
 import json
-import os
-from shutil import copyfile
 
 import numpy as np
 import pandas as pd
@@ -8,6 +6,7 @@ import quantstats as qs
 import requests
 import yahooquery as yq
 
+import db
 from cache import file_cache
 from scale import scale
 from validation import validate
@@ -21,16 +20,25 @@ CANADA_RISK_FREE_RATE = 4.5300
 TSX_EXPECTED_RETURN = 20.98
 
 
-def save(obj, filename):
-    with open(filename, 'w') as json_file:
-        json.dump(obj, json_file)
+async def fetch_data():
+    return await db.fetch_data()
 
 
-def fetch(filename):
-    if not os.path.exists(filename):
-        return None
-    with open(filename, 'r') as json_file:
-        return json.load(json_file)
+async def fetch_no_data(query=None):
+    return await db.fetch_no_data(query)
+
+
+async def save_no_data(symbol):
+    await db.insert_no_data(symbol)
+
+
+async def get_companies():
+    companies = get_companies_from_tsx()
+    already_found = list(dict(await db.fetch_data()).keys())
+    companies = filter(lambda c: c not in already_found, companies)
+    no_data = await fetch_no_data()
+    companies = filter(lambda c: c not in no_data, companies)
+    return list(sorted(companies))
 
 
 @file_cache('companies.json')
@@ -42,28 +50,6 @@ def get_companies_from_tsx():
         for instrument in tsx['instruments']:
             companies.add(instrument['symbol'])
     return list(companies)
-
-
-def get_companies():
-    companies = get_companies_from_tsx()
-    data = fetch('output/data.json')
-    if data:
-        companies = filter(lambda c: c not in dict(data).keys(), companies)
-    no_data = fetch('no_data.json')
-    if no_data:
-        companies = filter(lambda c: c not in list(no_data), companies)
-    return list(sorted(companies))
-
-
-def save_data(data, fileprefix=''):
-    if not data:
-        return
-    if not os.path.exists("output"):
-        os.mkdir("output")
-    existing = fetch('output/' + fileprefix + 'data.json')
-    if existing:
-        data = {**dict(existing), **data}
-    save(data, 'output/' + fileprefix + 'data.json')
 
 
 def get_risk(symbol):
@@ -120,7 +106,8 @@ def get_symbol(company):
     return symbol
 
 
-def get_company_data(companies, retry, fileprefix=''):
+async def get_company_data(companies):
+    retry = []
     success_count = 0
     esg_count = 0
     for company in companies:
@@ -146,7 +133,7 @@ def get_company_data(companies, retry, fileprefix=''):
             success_count += 1
             if d['environment'] or d['social'] or d['governance']:
                 esg_count += 1
-            save_data({symbol: d}, fileprefix)
+            await db.insert_data(symbol, d)
             print("currently " + str(success_count) + " valid data points with " + str(esg_count) + ' esg data points')
         except ValueError as e:
             print(e)
@@ -154,11 +141,8 @@ def get_company_data(companies, retry, fileprefix=''):
                 retry.append(company)
                 print('adding "' + company + '" to retries. currently ' + str(len(retry)) + ' retries in the queue')
                 continue
-            no_data = [company, symbol]
-            curr_no_data = fetch('no_data.json')
-            if curr_no_data:
-                no_data += curr_no_data
-            save(list(sorted(set(no_data))), 'no_data.json')
+            await db.insert_no_data(company)
+            await db.insert_no_data(symbol)
             continue
         except Exception as e:
             print(e)
@@ -168,23 +152,21 @@ def get_company_data(companies, retry, fileprefix=''):
     return retry
 
 
-def save_company_data(companies, fileprefix=''):
+async def save_company_data(companies):
     attempts = 0
     while len(companies) > 0:
         print('attempt: ' + str(attempts) + ' | number of companies: ' + str(len(companies)))
-        failed_companies = get_company_data(companies, [], fileprefix)
+        failed_companies = await get_company_data(companies)
         companies = failed_companies
         attempts += 1
 
 
-def main():
-    save_company_data(['^GSPTSE'], 'index-')
-    save_company_data(get_companies())
-    os.mkdir('output/raw')
-    copyfile('output/data.json', 'output/raw/data.json')
-    scale()
+async def main():
+    await db.clear_data()
+    companies = await get_companies()
+    await save_company_data(companies)
+    await scale()
     validate()
-    scale(file='output/index-data.json')
 
 
 if __name__ == "__main__":
