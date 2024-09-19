@@ -1,13 +1,16 @@
+import asyncio
 import json
+import time
 
 import numpy as np
 import pandas as pd
 import quantstats as qs
 import requests
+import schedule
 import yahooquery as yq
 
-import db
 from cache import file_cache
+import db
 from scale import scale
 from validation import validate
 
@@ -162,12 +165,18 @@ async def save_company_data(companies):
 
 
 async def main():
-    await db.clear_data()
+    # await db.clear_data()
     companies = await get_companies()
     await save_company_data(companies)
     await scale()
     validate()
 
+def scheduled_task():
+    schedule.every().day.at("20:40").do(asyncio.run(main()))
+    while True:
+        print('waiting')
+        schedule.run_pending()
+        time.sleep(1)
 
 if __name__ == "__main__":
-    main()
+    scheduled_task()
