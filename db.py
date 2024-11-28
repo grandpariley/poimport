@@ -1,3 +1,4 @@
+import gc
 import os
 
 import motor.motor_asyncio
@@ -60,4 +61,6 @@ async def symbols():
     cursor = data.find(None)
     async for result in cursor:
         s.append(result['symbol'])
+        del result
+        gc.collect()
     return s
