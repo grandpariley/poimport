@@ -59,6 +59,5 @@ async def symbols():
     s = []
     cursor = data.find(None)
     async for result in cursor:
-        print(result)
         s.append(result['symbol'])
     return s
