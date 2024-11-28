@@ -29,7 +29,11 @@ async def insert_no_data(nd):
     await no_data.insert_one({'symbol': nd})
 
 
-async def fetch_data(symbol):
+def fetch_data(symbol):
+    return client.get_io_loop().run_until_complete(_fetch_data(symbol))
+
+
+async def _fetch_data(symbol):
     data_as_list = await find_all(data.find({'symbol': symbol}))
     data_as_dict = dict()
     for d in data_as_list:
@@ -49,11 +53,19 @@ async def find_all(cursor):
     return results
 
 
-async def count():
+def count():
+    return client.get_io_loop().run_until_complete(_count())
+
+
+async def _count():
     return await data.count_documents(None)
 
 
-async def symbols():
+def symbols():
+    return client.get_io_loop().run_until_complete(_symbols())
+
+
+async def _symbols():
     s = []
     cursor = data.find(None)
     async for result in cursor:
