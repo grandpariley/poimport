@@ -23,23 +23,11 @@ CANADA_RISK_FREE_RATE = 4.5300
 TSX_EXPECTED_RETURN = 20.98
 
 
-async def fetch_data():
-    return await db.fetch_data()
-
-
-async def fetch_no_data(query=None):
-    return await db.fetch_no_data(query)
-
-
-async def save_no_data(symbol):
-    await db.insert_no_data(symbol)
-
-
 async def get_companies():
     companies = get_companies_from_tsx()
     already_found = list(dict(await db.fetch_data()).keys())
     companies = filter(lambda c: c not in already_found, companies)
-    no_data = list(map(lambda d: d['symbol'], await fetch_no_data()))
+    no_data = list(map(lambda d: d['symbol'], await db.fetch_no_data()))
     companies = filter(lambda c: c not in no_data, companies)
     return list(sorted(companies))
 
@@ -171,12 +159,14 @@ async def main():
     await scale()
     validate()
 
+
 def scheduled_task():
     schedule.every().day.at("20:40").do(asyncio.run(main()))
     while True:
         print('waiting')
         schedule.run_pending()
         time.sleep(1)
+
 
 if __name__ == "__main__":
     scheduled_task()
