@@ -3,8 +3,6 @@ import os
 
 import motor.motor_asyncio
 from dotenv import load_dotenv
-import nest_asyncio
-nest_asyncio.apply()
 
 load_dotenv()
 
