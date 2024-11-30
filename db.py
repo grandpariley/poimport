@@ -1,4 +1,3 @@
-import gc
 import os
 
 import motor.motor_asyncio
@@ -30,16 +29,16 @@ async def insert_no_data(nd):
     await no_data.insert_one({'symbol': nd})
 
 
-async def fetch_data(symbol):
-    data_as_list = await find_all(data.find({'symbol': symbol}))
+async def fetch_data():
+    data_as_list = await find_all(data.find(None))
     data_as_dict = dict()
     for d in data_as_list:
         data_as_dict[d['symbol']] = d['data']
-    return data_as_dict[symbol]
+    return data_as_dict
 
 
-async def fetch_no_data():
-    return await find_all(no_data.find(None))
+def fetch_no_data(query):
+    return find_all(no_data.find(query))
 
 
 async def find_all(cursor):
@@ -48,17 +47,3 @@ async def find_all(cursor):
     async for result in cursor:
         results.append(result)
     return results
-
-
-async def count():
-    return await data.count_documents(None)
-
-
-async def symbols():
-    s = []
-    cursor = data.find(None)
-    async for result in cursor:
-        s.append(result['symbol'])
-        del result
-        gc.collect()
-    return s
