@@ -6,7 +6,6 @@ import numpy as np
 import pandas as pd
 import quantstats as qs
 import requests
-import schedule
 import yahooquery as yq
 
 from cache import file_cache
@@ -160,13 +159,5 @@ async def main():
     validate()
 
 
-def scheduled_task():
-    schedule.every().day.at("20:40").do(asyncio.run(main()))
-    while True:
-        print('waiting')
-        schedule.run_pending()
-        time.sleep(1)
-
-
 if __name__ == "__main__":
-    scheduled_task()
+    asyncio.run(main())
