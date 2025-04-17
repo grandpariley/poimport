@@ -1,6 +1,7 @@
 import asyncio
+import csv
 import json
-import time
+from datetime import datetime
 
 import numpy as np
 import pandas as pd
@@ -11,7 +12,6 @@ import yahooquery as yq
 from cache import file_cache
 import db
 from scale import scale
-from validation import validate
 
 # https://www.bankofcanada.ca/rates/interest-rates/corra/
 # updated July 13, 2024
@@ -34,11 +34,10 @@ async def get_companies():
 @file_cache('companies.json')
 def get_companies_from_tsx():
     companies = set()
-    tsx_raw = requests.get("https://www.tsx.com/json/company-directory/search/tsx/^*").json()
-    for tsx in tsx_raw['results']:
-        companies.add(tsx['symbol'])
-        for instrument in tsx['instruments']:
-            companies.add(instrument['symbol'])
+    with open('data/companies.csv', newline='') as csv_file:
+        file = csv.reader(csv_file)
+        for row in file:
+            companies.add(row[2])
     return list(companies)
 
 
@@ -70,7 +69,7 @@ def get_capm_expected_return(symbol, ticker):
         beta = 0.5  # the S&P TSX index should have a beta of 0.5 by definition
     if beta is None or np.isnan(beta):
         raise ValueError('no expected return - ' + symbol)
-    return CANADA_RISK_FREE_RATE + (beta * (TSX_EXPECTED_RETURN - CANADA_RISK_FREE_RATE))
+    return CANADA_RISK_FREE_RATE + (beta * (TSX_EXPECTED_RETURN - CANADA_RISK_FREE_RATE)), beta
 
 
 def get_price(symbol, ticker):
@@ -107,7 +106,7 @@ async def get_company_data(companies):
             symbol = get_symbol(company)
             ticker = yq.Ticker(symbol)
             price = get_price(symbol, ticker)
-            expected_return = get_capm_expected_return(symbol, ticker)
+            expected_return, beta = get_capm_expected_return(symbol, ticker)
             cvar, var = get_risk(symbol)
             environment, social, governance = get_esg(symbol, ticker)
             d = {
@@ -119,6 +118,8 @@ async def get_company_data(companies):
                 'environment': None if environment is None or np.isnan(environment) else environment,
                 'social': None if social is None or np.isnan(social) else social,
                 'governance': None if governance is None or np.isnan(governance) else governance,
+                'timestamp': datetime.now(),
+                'beta': beta
             }
             success_count += 1
             if d['environment'] or d['social'] or d['governance']:
@@ -152,11 +153,10 @@ async def save_company_data(companies):
 
 
 async def main():
-    # await db.clear_data()
+    await db.clear_data()
     companies = await get_companies()
     await save_company_data(companies)
     await scale()
-    validate()
 
 
 if __name__ == "__main__":

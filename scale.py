@@ -1,8 +1,6 @@
-import json
 import math
 
 import db
-from cache import file_cache
 
 SCALED_OBJECTIVES = ['cvar', 'var', 'return', 'environment', 'social', 'governance']
 MINIMIZE_OBJECTIVES = ['cvar', 'var']

@@ -8,8 +8,10 @@ numpy = "*"
 quantstats = "*"
 yahooquery = "*"
 ipython = "*"
+motor = "*"
+dotenv = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.12"
+python_version = "3.11"

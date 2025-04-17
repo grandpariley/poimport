@@ -1,0 +1,625 @@
+S.No.,Company Name,Ticker
+1,Royal Bank of Canada,RY
+2,Shopify Inc. ,SHOP
+3,Toronto-Dominion Bank (The),TD
+4,Enbridge Inc.,ENB
+5,Brookfield Corporation,BN
+6,Thomson Reuters Corporation ,TRI
+7,Canadian Pacific Kansas City Limited,CP
+8,Bank of Montreal,BMO
+9,Constellation Software Inc.,CSU
+10,Canadian National Railway Company,CNR
+11,Canadian Natural Resources Limited,CNQ
+12,Bank of Nova Scotia (The),BNS
+13,Canadian Imperial Bank Of Commerce,CM
+14,Manulife Financial Corporation,MFC
+15,Alimentation Couche-Tard Inc.,ATD
+16,Newmont Corporation ,NGT
+17,"Waste Connections, Inc.",WCN
+18,Suncor Energy Inc.,SU
+19,TC Energy Corporation,TRP
+20,Agnico Eagle Mines Limited,AEM
+21,Loblaw Companies Limited,L
+22,Imperial Oil Limited,IMO
+23,Sun Life Financial Inc.,SLF
+24,Intact Financial Corporation,IFC
+25,National Bank of Canada,NA
+26,Great-West Lifeco Inc.,GWO
+27,Fairfax Financial Holdings Limited ,FFH
+28,Barrick Gold Corporation,ABX
+29,Wheaton Precious Metals Corp.,WPM
+30,CGI Inc. ,GIB.A
+31,Dollarama Inc.,DOL
+32,Cenovus Energy Inc.,CVE
+33,Franco-Nevada Corporation,FNV
+34,Nutrien Ltd.,NTR
+35,Brookfield Asset Management Ltd. ,BAM
+36,WSP Global Inc.,WSP
+37,TELUS Corporation Common,T
+38,BCE Inc.,BCE
+39,Cameco Corporation,CCO
+40,Fortis Inc.,FTS
+41,Teck Resources Limited ,TECK.A
+42,Pembina Pipeline Corporation,PPL
+43,Teck Resources Limited,TECK.B
+44,Fairfax Financial Holdings Limited ,FFH.U
+45,Restaurant Brands International Limited Partnership Exchangeable Units,QSP.UN
+46,George Weston Limited,WN
+47,Restaurant Brands International Inc.,QSR
+48,Power Corporation of Canada ,POW
+49,Hydro One Limited,H
+50,GFL Environmental Inc. ,GFL
+51,Tourmaline Oil Corp.,TOU
+52,Rogers Communications Inc. ,RCI.A
+53,"RB Global, Inc.",RBA
+54,Brookfield Infrastructure Partners L.P.,BIP.UN
+55,Rogers Communications Inc.,RCI.B
+56,Celestica Inc.,CLS
+57,Ivanhoe Mines Ltd. ,IVN
+58,Metro Inc.,MRU
+59,Kinross Gold Corporation,K
+60,Magna International Inc.,MG
+61,TFI International Inc.,TFII
+62,"Dayforce, Inc.",DAY
+63,Emera Incorporated,EMA
+64,Ovintiv Inc.,OVV
+65,Molson Coors Canada Inc. - Class A,TPX.B
+66,Molson Coors Canada Inc. - Class B ,TPX.A
+67,First Quantum Minerals Ltd.,FM
+68,Brookfield Renewable Partners L.P. ,BEP.UN
+69,ARC Resources Ltd.,ARX
+70,Brookfield Renewable Corporation ,BEPC
+71,Descartes Systems Group Inc. (The),DSG
+72,"Canadian Tire Corporation, Limited",CTC
+73,CCL Industries Inc. ,CCL.A
+74,Brookfield Wealth Solutions Ltd. ,BNT
+75,Stantec Inc.,STN
+76,CCL Industries Inc. ,CCL.B
+77,AtkinsRéalis Group Inc.,ATRL
+78,iA Financial Corporation Inc.,IAG
+79,Alamos Gold Inc. Class A,AGI
+80,TMX Group Limited,X
+81,Pan American Silver Corp.,PAAS
+82,Gildan Activewear Inc.,GIL
+83,FirstService Corporation,FSV
+84,Element Fleet Management Corp.,EFN
+85,Open Text Corporation,OTEX
+86,IGM Financial Inc.,IGM
+87,CAE Inc. Unlimited,CAE
+88,Colliers International Group Inc. ,CIGI
+89,Saputo Inc.,SAP
+90,Empire Company Limited,EMP.A
+91,West Fraser Timber Co. Ltd.,WFG
+92,AltaGas Ltd.,ALA
+93,Galaxy Digital Holdings Ltd.,GLXY
+94,Toromont Industries Ltd.,TIH
+95,Keyera Corp.,KEY
+96,Canadian Utilities Limited ,CU
+97,"Canadian Tire Corporation, ",CTC.A
+98,Lundin Mining Corporation,LUN
+99,Bausch + Lomb Corporation,BLCO
+100,Brookfield Infrastructure Corporation ,BIPC
+101,Lundin Gold Inc.,LUG
+102,Bombardier Inc. ,BBD.A
+103,Bombardier Inc. ,BBD.B
+104,ONEX Corporation ,ONEX
+105,Aritzia Inc. ,ATZ
+106,Quebecor Inc.  Class A,QBR.A
+107,Quebecor Inc. Class B ,QBR.B
+108,Endeavour Mining Plc,EDV
+109,South Bow Corporation,SOBO
+110,Air Canada,AC
+111,Capital Power Corporation,CPX
+112,Brookfield Business Partners L.P. Limited Partnership Units,BBU.UN
+113,Canadian Apartment Properties Real Estate Investment Trust Trust Units,CAR.UN
+114,Definity Financial Corporation,DFY
+115,PrairieSky Royalty Ltd.,PSK
+116,MEG Energy Corp.,MEG
+117,Capstone Copper Corp.,CS
+118,Strathcona Resources Ltd.,SCR
+119,Parkland Corporation,PKI
+120,Whitecap Resources Inc.,WCP
+121,Canadian Western Bank,CWB
+122,RioCan Real Estate Investment Trust Trust Units,REI.UN
+123,Sprott Physical Uranium Trust Trust Units,U.UN
+124,ATCO Ltd. Class II Shares,ACO.Y
+125,NexGen Energy Ltd.,NXE
+126,ATCO Ltd. Class I Shares,ACO.X
+127,IAMGOLD Corporation,IMG
+128,Boyd Group Services Inc.,BYD
+129,Methanex Corporation,MX
+130,BRP Inc. ,DOO
+131,Finning International Inc.,FTT
+132,Osisko Gold Royalties Ltd,OR
+133,TransAlta Corporation,TA
+134,Algonquin Power & Utilities Corp,AQN
+135,E-L Financial Corporation Limited,ELF
+136,Kinaxis Inc.,KXS
+137,Hudbay Minerals Inc.,HBM
+138,Triple Flag Precious Metals Corp.,TFPM
+139,B2Gold Corp.,BTO
+140,Eldorado Gold Corporation,ELD
+141,Veren Inc.,VRN
+142,CI Financial Corp.,CIX
+143,Granite Real Estate Investment Trust Units,GRT.UN
+144,Northland Power Inc.,NPI
+145,Chartwell Retirement Residences Units,CSH.UN
+146,SmartCentres Real Estate Investment Trust Variable Voting Units,SRU.UN
+147,Choice Properties Real Estate Investment Trust Units,CHP.UN
+148,Paramount Resources Ltd. Class A,POU
+149,EQB Inc.,EQB
+150,Gibson Energy Inc.,GEI
+151,Bausch Health Companies Inc.,BHC
+152,Stella-Jones Inc.,SJ
+153,Canaccord Genuity Group Inc.,CF
+154,ATS Corporation,ATS
+155,BlackBerry Limited,BB
+156,Equinox Gold Corp.,EQX
+157,Sprott Physical Uranium Trust Trust Units,U.U
+158,Topaz Energy Corp.,TPZ
+159,Secure Waste Infrastructure Corp.,SES
+160,Knowlton Development Corp Inc,KDC
+161,First Capital Real Estate Investment Trust Trust Units,FCR.UN
+162,Perseus Mining Limited,PRU
+163,Premium Brands Holdings Corporation,PBH
+164,Linamar Corporation,LNR
+165,New Gold Inc.,NGD
+166,Brookfield Business Corporation,BBUC
+167,Dream Industrial Real Estate Investment Trust Units,DIR.UN
+168,Boardwalk Real Estate Investment Trust Trust Units,BEI.UN
+169,CT Real Estate Investment Trust Unit,CRT.UN
+170,China Gold International Resources Corp. Ltd.,CGG
+171,Lightspeed Commerce Inc. ,LSPD
+172,G Mining Ventures Corp.,GMIN
+173,Spin Master Corp. ,TOY
+174,OceanaGold Corporation,OGC
+175,Peyto Exploration & Development Corp.,PEY
+176,goeasy Ltd.,GSY
+177,Hut 8 Corp.,HUT
+178,Orla Mining Ltd,OLA
+179,MDA Space Ltd.,MDA
+180,Baytex Energy Corp.,BTE
+181,Altus Group Limited,AIF
+182,Winpak Ltd.,WPK
+183,NuVista Energy Ltd.,NVA
+184,Exchange Income Corporation,EIF
+185,Boralex Inc. ,BLX
+186,Torex Gold Resources Inc.,TXG
+187,Dundee Precious Metals Inc.,DPM
+188,Maple Leaf Foods Inc.,MFI
+189,TerraVest Industries Inc.,TVK
+190,Cogeco Communications Inc. ,CCA
+191,Champion Iron Limited,CIA
+192,H&R Real Estate Investment Trust Units,HR.UN
+193,Athabasca Oil Corporation,ATH
+194,Sandstorm Gold Ltd.,SSL
+195,First Majestic Silver Corp.,AG
+196,NGEx Minerals Ltd.,NGEX
+197,Crombie Real Estate Investment Trust Units,CRR.UN
+198,Canoe EIT Income Fund Trust Units,EIT.UN
+199,Allied Properties Real Estate Investment Trust Units,AP.UN
+200,First National Financial Corporation,FN
+201,Tamarack Valley Energy Ltd.,TVE
+202,International Petroleum Corporation,IPCO
+203,Fairfax India Holdings Corporation ,FIH.U
+204,Russel Metals Inc.,RUS
+205,"Bitcoin Fund, The Class A units",QBTC
+206,Denison Mines Corp.,DML
+207,MAG Silver Corp.,MAG
+208,Paladin Energy Ltd.,PDN
+209,SSR Mining Inc.,SSRM
+210,Fortuna Mining Corp.,FVI
+211,K92 Mining Inc.,KNT
+212,Richelieu Hardware Ltd.,RCH
+213,SilverCrest Metals Inc.,SIL
+214,North West Company Inc. (The),NWC
+215,Wesdome Gold Mines Ltd.,WDO
+216,Vermilion Energy Inc.,VET
+217,Calibre Mining Corp,CXB
+218,Killam Apartment Real Estate Investment Trust Class A Trust Units,KMP.UN
+219,CES Energy Solutions Corp.,CEU
+220,Ero Copper Corp.,ERO
+221,Labrador Iron Ore Royalty Corporation,LIF
+222,Centerra Gold Inc.,CG
+223,Cargojet Inc. ,CJT
+224,Mainstreet Equity Corp.,MEQ
+225,Freehold Royalties Ltd.,FRU
+226,Docebo Inc.,DCBO
+227,Pet Valu Holdings Ltd.,PET
+228,Andlauer Healthcare Group Inc. ,AND
+229,Canfor Corporation,CFP
+230,Leon's Furniture Limited,LNF
+231,Cymbria Corporation ,CYB
+232,Groupe Dynamite Inc. ,GRGD
+233,Royal Canadian Mint - Canadian Gold Reserves Exchange-Traded Receipts,MNT
+234,Enerflex Ltd.,EFX
+235,"Bitcoin Fund, The Class A Units",QBTC.U
+236,Sprott Inc.,SII
+237,Seabridge Gold Inc.,SEA
+238,Headwater Exploration Inc.,HWX
+239,Trisura Group Ltd.,TSU
+240,United Corporations Limited,UNC
+241,Transcontinental Inc. ,TCL.B
+242,Advantage Energy Ltd.,AAV
+243,Birchcliff Energy Ltd.,BIR
+244,Canada Goose Holdings Inc. ,GOOS
+245,Transcontinental Inc. ,TCL.A
+246,TELUS International (Cda) Inc. ,TIXT
+247,Enghouse Systems Limited,ENGH
+248,Aya Gold & Silver Inc.,AYA
+249,Skeena Resources Limited,SKE
+250,NovaGold Resources Inc.,NG
+251,Endeavour Silver Corp.,EDR
+252,Allied Gold Corporation,AAUC
+253,Superior Plus Corp.,SPB
+254,Aecon Group Inc.,ARE
+255,Innergex Renewable Energy Inc.,INE
+256,WELL Health Technologies Corp.,WELL
+257,Softchoice Corporation,SFTC
+258,"Tilray Brands, Inc. Common Stock",TLRY
+259,InterRent Real Estate Investment Trust Units,IIP.UN
+260,Westshore Terminals Investment Corporation,WTE
+261,dentalcorp Holdings Ltd. ,DNTL
+262,NFI Group Inc.,NFI
+263,Foran Mining Corporation,FOM
+264,"Curaleaf Holdings, Inc. ",CURA
+265,Parex Resources Inc.,PXT
+266,Aura Minerals Inc.,ORA
+267,Jamieson Wellness Inc.,JWEL
+268,StorageVault Canada Inc.,SVI
+269,Badger Infrastructure Solutions Ltd.,BDGI
+270,Kelt Exploration Ltd.,KEL
+271,Savaria Corporation,SIS
+272,Propel Holdings Inc.,PRL
+273,Bird Construction Inc.,BDT
+274,Mullen Group Ltd.,MTL
+275,Cascades Inc.,CAS
+276,Sienna Senior Living Inc.,SIA
+277,Energy Fuels Inc.,EFR
+278,Altius Minerals Corporation,ALS
+279,"SunOpta, Inc.",SOY
+280,Chemtrade Logistics Income Fund Trust Units,CHE.UN
+281,Hammond Power Solutions Inc. ,HPS.A
+282,Lassonde Industries Inc.,LAS.A
+283,Algoma Steel Group Inc.,ASTL
+284,Laurentian Bank of Canada,LB
+285,Morguard Corporation,MRC
+286,Precision Drilling Corporation,PD
+287,MTY Food Group Inc.,MTY
+288,Royal Canadian Mint - Canadian Gold Reserves Exchange-Traded Receipts,MNT.U
+289,Guardian Capital Group Limited,GCG.A
+290,Guardian Capital Group Limited,GCG
+291,NorthWest Healthcare Properties Real Estate Investment Trust Units,NWH.UN
+292,Perpetua Resources Corp.,PPTA
+293,Westgold Resources Limited,WGX
+294,Heroux-Devtek Inc.,HRX
+295,Pason Systems Inc.,PSI
+296,Royal Canadian Mint - Canadian Silver Reserves Exchange-Traded Receipts,MNS
+297,Cronos Group Inc.,CRON
+298,Ivanhoe Electric Inc.,IE
+299,D2L Inc. ,DTOL
+300,Clairvest Group Inc.,CVG
+301,Cardinal Energy Ltd.,CJ
+302,Economic Investment Trust Limited,EVT
+303,Bitfarms Ltd.,BITF
+304,Dye & Durham Limited,DND
+305,Evertz Technologies Limited,ET
+306,Silvercorp Metals Inc.,SVM
+307,Sagicor Financial Company Ltd.,SFC
+308,Senvest Capital Inc.,SEC
+309,Rupert Resources Ltd.,RUP
+310,DREAM Unlimited Corp. ,DRM
+311,Trican Well Service Ltd.,TCW
+312,Aris Mining Corporation,ARIS
+313,Morguard North American Residential Real Estate Investment Trust Units,MRG.UN
+314,Alaris Equity Partners Income Trust trust units,AD.UN
+315,ECN Capital Corp.,ECN
+316,Interfor Corporation,IFP
+317,BSR Real Estate Investment Trust Trust Units,HOM.UN
+318,ADENTRA Inc.,ADEN
+319,Minto Apartment Real Estate Investment Trust Trust Units,MI.UN
+320,Extendicare Inc.,EXE
+321,Vizsla Silver Corp.,VZLA
+322,Computer Modelling Group Ltd.,CMG
+323,Slate Grocery REIT Class U Units,SGR.UN
+324,Africa Oil Corp.,AOI
+325,Fiera Capital Corporation ,FSZ
+326,"Canadian General Investments, Limited",CGI
+327,A & W Food Services of Canada Inc.,AW
+328,The Ether Fund Class A units,QETH.UN
+329,GDI Integrated Facility Services Inc. ,GDI
+330,Taseko Mines Limited,TKO
+331,Artis Real Estate Investment Trust Units,AX.UN
+332,Mattr Corp.,MATR
+333,North American Construction Group Ltd.,NOA
+334,Pollard Banknote Limited,PBL
+335,Solaris Resources Inc.,SLS
+336,Valeura Energy Inc.,VLE
+337,Kiwetinohk Energy Corp.,KEC
+338,Ag Growth International Inc.,AFN
+339,Rogers Sugar Inc.,RSI
+340,AGF Management Limited ,AGF.B
+341,Royal Canadian Mint - Canadian Silver Reserves Exchange-Traded Receipts,MNS.U
+342,Dividend 15 Split Corp. ,DFN
+343,MCAN Mortgage Corporation,MKP
+344,Lithium Americas Corp.,LAC
+345,Cineplex Inc.,CGX
+346,Nexus Industrial REIT Trust units,NXR.UN
+347,Frontera Energy Corporation,FEC
+348,Doman Building Materials Group Ltd.,DBM
+349,Major Drilling Group International Inc.,MDI
+350,5N Plus Inc.,VNP
+351,Martinrea International Inc.,MRE
+352,DRI Healthcare Trust Units,DHT.UN
+353,Converge Technology Solutions Corp.,CTS
+354,Spartan Delta Corp.,SDE
+355,TECSYS Inc.,TCS
+356,Greenfire Resources Ltd.,GFR
+357,McEwen Mining Inc. Common Stock,MUX
+358,PetroTal Corp.,TAL
+359,Discovery Silver Corp.,DSV
+360,Lithium Argentina AG,LAR
+361,G2 Goldfields Inc.,GTWO
+362,BSR Real Estate Investment Trust Trust Units,HOM.U
+363,Coveo Solutions Inc. ,CVO
+364,Ballard Power Systems Inc.,BLDP
+365,Slate Grocery REIT Class U Units,SGR.U
+366,Algoma Central Corporation,ALC
+367,Calian Group Ltd.,CGY
+368,Ensign Energy Services Inc.,ESI
+369,Vitalhub Corp.,VHI
+370,Ur-Energy Inc.,URE
+371,Mineros S.A.,MSA
+372,Timbercreek Financial Corp.,TF
+373,Stingray Group Inc. - Class A,RAY.A
+374,Blackline Safety Corp.,BLN
+375,The Ether Fund Class A units,QETH.U
+376,Obsidian Energy Ltd.,OBE
+377,"kneat.com, inc.",KSI
+378,Stingray Group Inc. - Class B,RAY.B
+379,European Residential Real Estate Investment Trust Trust Units,ERE.UN
+380,Knight Therapeutics Inc.,GUD
+381,Black Diamond Group Limited,BDI
+382,Magellan Aerospace Corporation,MAL
+383,Chorus Aviation Inc.,CHR
+384,Surge Energy Inc.,SGY
+385,Marimaca Copper Corp.,MARI
+386,Automotive Properties Real Estate Investment Trust Units,APR.UN
+387,Collective Mining Ltd.,CNL
+388,Entree Resources Ltd.,ETG
+389,Northview Residential REIT Class A Units,NRR.UN
+390,"Caribbean Utilities Company, Ltd. Class A",CUP.U
+391,VersaBank,VBNK
+392,Cogeco Inc. ,CGO
+393,Dexterra Group Inc.,DXT
+394,GoGold Resources Inc.,GGD
+395,IsoEnergy Ltd.,ISO
+396,Northern Dynasty Minerals Ltd.,NDM
+397,Information Services Corporation,ISC
+398,Atrium Mortgage Investment Corporation,AI
+399,High Liner Foods Incorporated,HLF
+400,DRI Healthcare Trust Units,DHT.U
+401,Nouveau Monde Graphite Inc.,NOU
+402,AutoCanada Inc.,ACQ
+403,Diversified Royalty Corp.,DIV
+404,Uranium Royalty Corp.,URC
+405,Wajax Corporation,WJX
+406,FireFly Metals Ltd.,FFM
+407,Real Matters Inc.,REAL
+408,Mandalay Resources Corporation,MND
+409,Firm Capital Mortgage Investment Corporation,FC
+410,Total Energy Services Inc.,TOT
+411,Saturn Oil & Gas Inc.,SOIL
+412,TWC Enterprises Limited,TWC
+413,NanoXplore Inc.,GRA
+414,Pizza Pizza Royalty Corp.,PZA
+415,PHX Energy Services Corp.,PHX
+416,Patriot Battery Metals Inc.,PMET
+417,Boston Pizza Royalties Income Fund Units,BPF.UN
+418,Wall Financial Corporation,WFC
+419,BMTC Group Inc.,GBT
+420,Freegold Ventures Limited,FVL
+421,Taiga Building Products Ltd.,TBL
+422,Galiano Gold Inc.,GAU
+423,Flagship Communities Real Estate Investment Trust Trust Units,MHC.UN
+424,SolGold plc,SOLG
+425,Plaza Retail REIT Units,PLZ.UN
+426,Medical Facilities Corporation,DR
+427,North American Financial 15 Split Corp. ,FFN
+428,"Dominion Lending Centres Inc. Class """"A""""",DLCG
+429,K-Bro Linen Inc.,KBL
+430,Kolibri Global Energy Inc.,KEI
+431,Melcor Developments Ltd.,MRD
+432,Financial 15 Split Corp. ,FTN
+433,Tenaz Energy Corp.,TNZ
+434,Telesat Corporation ,TSAT
+435,Corby Spirit and Wine Limited Unlimited Voting,CSW.A
+436,Morguard Real Estate Investment Trust Trust Units,MRT.UN
+437,Velan Inc. ,VLN
+438,Richards Packaging Income Fund Units,RPI.UN
+439,Neo Performance Materials Inc.,NEO
+440,Dream Office Real Estate Investment Trust Trust Units,D.UN
+441,Corby Spirit and Wine Limited Unlimited Non Voting Class B Common Shrs,CSW.B
+442,Probe Gold Inc.,PRB
+443,Cipher Pharmaceuticals Inc.,CPH
+444,Sangoma Technologies Corporation,STC
+445,Queen's Road Capital Investment Ltd.,QRC
+446,Orezone Gold Corporation,ORE
+447,Vecima Networks Inc.,VCM
+448,Clarke Inc.,CKI
+449,Calfrac Well Services Ltd.,CFW
+450,Dividend Growth Split Corp.,DGS
+451,WildBrain Ltd. ,WILD
+452,HealWELL AI Inc. ,AIDX
+453,Imperial Metals Corporation,III
+454,i-80 Gold Corp.,IAU
+455,PRO Real Estate Investment Trust Trust Units,PRV.UN
+456,STEP Energy Services Ltd.,STEP
+457,Pine Cliff Energy Ltd.,PNE
+458,Lithium Royalty Corp.,LIRC
+459,New Pacific Metals Corp.,NUAG
+460,Life & Banc Split Corp.,LBS
+461,Almonty Industries Inc.,AII
+462,Acadian Timber Corp.,ADN
+463,Maxim Power Corp.,MXG
+464,Western Copper and Gold Corporation,WRN
+465,Madison Pacific Properties Inc. Class B Voting,MPC
+466,Capital Power Corporation subscription receipts,CPX.R
+467,Trilogy Metals Inc.,TMQ
+468,Canopy Growth Corporation,WEED
+469,BTB Real Estate Investment Trust Trust Units,BTB.UN
+470,Aurora Cannabis Inc.,ACB
+471,Ecora Resources plc,ECOR
+472,Flagship Communities Real Estate Investment Trust Trust Units,MHC.U
+473,TerrAscend Corp.,TSND
+474,Canadian Banc Corp. ,BK
+475,Kits Eyecare Ltd.,KITS
+476,Organigram Holdings Inc.,OGI
+477,Amerigo Resources Ltd.,ARG
+478,PIMCO Global Income Opportunities Fund Class A units,PGI.UN
+479,Exco Technologies Limited,XTC
+480,Polaris Renewable Energy Inc.,PIF
+481,VerticalScope Holdings Inc. ,FORA
+482,Prime Mining Corp.,PRYM
+483,Olympia Financial Group Inc.,OLY
+484,Helios Fairfax Partners Corporation ,HFPC.U
+485,Urbana Corporation ,URB.A
+486,Urbana Corporation,URB
+487,Fennec Pharmaceuticals Inc.,FRX
+488,Gran Tierra Energy Inc.,GTE
+489,Sylogist Ltd.,SYZ
+490,Madison Pacific Properties Inc.,MPC.C
+491,E Split Corp.,ENS
+492,Tucows Inc.,TC
+493,EcoSynthetix Inc.,ECO
+494,Andrew Peller Limited - Class B Shares,ADW.B
+495,ADF Group Inc. ,DRX
+496,Aimia Inc.,AIM
+497,Avino Silver & Gold Mines Ltd.,ASM
+498,Andean Precious Metals Corp.,APM
+499,Foraco International SA,FAR
+500,Profound Medical Corp.,PRN
+501,DIRTT Environmental Solutions Ltd.,DRT
+502,ACT Energy Technologies Ltd.,ACX
+503,Bridgemarq Real Estate Services Inc.,BRE
+504,Gamehost Inc.,GH
+505,GoldMining Inc.,GOLD
+506,Thinkific Labs Inc. ,THNC
+507,Erdene Resource Development Corporation,ERD
+508,Firm Capital Property Trust Trust Units,FCD.UN
+509,Brompton Split Banc Corp. ,SBC
+510,Quipt Home Medical Corp.,QIPT
+511,Dynacor Group Inc.,DNG
+512,Jaguar Mining Inc.,JAG
+513,Sierra Metals Inc.,SMT
+514,Firan Technology Group Corporation,FTG
+515,Platinum Group Metals Ltd.,PTM
+516,Quarterhill Inc.,QTRH
+517,WonderFi Technologies Inc.,WNDR
+518,Genesis Land Development Corp.,GDC
+519,Anaergia Inc.,ANRG
+520,Dream Residential Real Estate Investment Trust CAD Units,DRR.UN
+521,Americas Gold and Silver Corporation,USA
+522,Payfare Inc. Class A,PAY
+523,Andrew Peller Limited - Class A Non-voting Shares,ADW.A
+524,Dividend 15 Split Corp. ,DF
+525,Serabi Gold plc,SBI
+526,Source Energy Services Ltd.,SHLE
+527,Arizona Sonoran Copper Company Inc.,ASCU
+528,Bragg Gaming Group Inc.,BRAG
+529,Dorel Industries Inc. Class A Multiple Voting Shares,DII.A
+530,Arizona Metals Corp.,AMC
+531,Vox Royalty Corp.,VOXR
+532,Petrus Resources Ltd.,PRQ
+533,Dorel Industries Inc. Class B ,DII.B
+534,Cardiol Therapeutics Inc. Class A,CRDL
+535,RF Capital Group Inc.,RCG
+536,Lucara Diamond Corp.,LUC
+537,Steppe Gold Ltd.,STGO
+538,Keg Royalties Income Fund (The) Units,KEG.UN
+539,Dundee Corporation,DC.A
+540,Largo Inc.,LGO
+541,Eupraxia Pharmaceuticals Inc.,EPRX
+542,Alithya Group inc. ,ALYA
+543,Yellow Pages Limited New,Y
+544,Melcor Real Estate Investment Trust Units,MR.UN
+545,InPlay Oil Corp.,IPO
+546,Laramide Resources Ltd.,LAM
+547,Geodrill Limited,GEO
+548,Spectral Medical Inc.,EDT
+549,Faraday Copper Corp.,FDY
+550,"Enterprise Group, Inc.",E
+551,abrdn Asia-Pacific Income Fund VCC,FAP
+552,Global Dividend Growth Split Corp. ,GDV
+553,Canso Credit Income Fund Class A units,PBY.UN
+554,Haivision Systems Inc.,HAI
+555,"Currency Exchange International, Corp.",CXI
+556,Rubellite Energy Corp.,RBY
+557,Ascot Resources Ltd.,AOT
+558,CareRx Corporation,CRRX
+559,International Tower Hill Mines Ltd.,ITH
+560,Troilus Gold Corp.,TLG
+561,Bonterra Energy Corp.,BNE
+562,Gear Energy Ltd.,GXE
+563,Global Atomic Corporation,GLO
+564,Dream Residential Real Estate Investment Trust Units,DRR.U
+565,Meridian Mining UK Societas,MNO
+566,True North Commercial Real Estate Investment Trust Units,TNT.UN
+567,First Mining Gold Corp.,FF
+568,Canacol Energy Ltd.,CNE
+569,illumin Holdings Inc.,ILLM
+570,Intermap Technologies Corporation,IMP
+571,TRX Gold Corporation,TRX
+572,HLS Therapeutics Inc.,HLS
+573,Pulse Seismic Inc.,PSD
+574,Journey Energy Inc.,JOY
+575,Western Forest Products Inc.,WEF
+576,Mega Uranium Ltd.,MGA
+577,Electrovaya Inc.,ELVA
+578,NextSource Materials Inc.,NEXT
+579,Vista Gold Corp.,VGZ
+580,Belo Sun Mining Corp.,BSX
+581,Pinetree Capital Ltd.,PNP
+582,Data Communications Management Corp.,DCM
+583,Liberty Gold Corp.,LGD
+584,Postmedia Network Canada Corp. Class C Voting Shares,PNC.A
+585,GoldMoney Inc.,XAU
+586,Xtract One Technologies Inc.,XTRA
+587,AirBoss of America Corp.,BOS
+588,Postmedia Network Canada Corp. Class NC Variable Voting Shares,PNC.B
+589,Condor Energies Inc.,CDR
+590,Westport Fuel Systems Inc.,WPRT
+591,Stack Capital Group Inc.,STCK
+592,SIR Royalty Income Fund Transferable Units,SRV.UN
+593,Hammond Manufacturing Company Limited Class A ,HMM.A
+594,Goodfellow Inc.,GDL
+595,Medicenna Therapeutics Corp.,MDNA
+596,Questerre Energy Corporation,QEC
+597,PyroGenesis Inc.,PYR
+598,Augusta Gold Corp.,G
+599,Yangarra Resources Ltd.,YGR
+600,STLLR Gold Inc.,STLR
+601,Touchstone Exploration Inc.,TXP
+602,Akita Drilling Ltd. Class B,AKT.B
+603,MINT Income Fund Trust Units,MID.UN
+604,Titanium Transportation Group Inc.,TTNM
+605,Theratechnologies Inc.,TH
+606,Roots Corporation,ROOT
+607,Tantalus Systems Holding Inc.,GRID
+608,Medexus Pharmaceuticals Inc.,MDP
+609,Sprott Physical Platinum and Palladium Trust Units,SPPP.U
+610,Satellos Bioscience Inc.,MSCL
+611,Aclara Resources Inc.,ARA
+612,Loncor Gold Inc.,LN
+613,Eloro Resources Ltd.,ELO
+614,Ceres Global Ag Corp.,CRP
+615,Forsys Metals Corp.,FSY
+616,Colabor Group Inc.,GCL
+617,Supremex Inc.,SXP
+618,Xtra-Gold Resources Corp.,XTG
+619,Birchtech Corp.,BCHT
+620,Buhler Industries Inc.,BUI
+621,Tidewater Midstream and Infrastructure Ltd.,TWM
+622,Brookfield Global Infrastructure Securities Income Fund Units,BGI.UN
+623,GreenFirst Forest Products Inc.,GFP
+624,Globex Mining Enterprises Inc.,GMX

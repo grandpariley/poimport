@@ -12,7 +12,7 @@ no_data = client.po.get_collection('no_data')
 
 
 async def clear_data():
-    await data.remove()
+    await data.delete_many({})
 
 
 async def insert_data(key, d):
@@ -30,12 +30,15 @@ async def insert_no_data(nd):
     await no_data.insert_one({'symbol': nd})
 
 
-async def fetch_data(symbol):
-    data_as_list = await find_all(data.find({'symbol': symbol}))
+async def fetch_data(symbol=None):
+    if symbol is None:
+        data_as_list = await find_all(data.find(None))
+    else:
+        data_as_list = await find_all(data.find({'symbol': symbol}))
     data_as_dict = dict()
     for d in data_as_list:
         data_as_dict[d['symbol']] = d['data']
-    return data_as_dict[symbol]
+    return data_as_dict if symbol is None else data_as_dict[symbol]
 
 
 async def fetch_no_data():
