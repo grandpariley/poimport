@@ -78,6 +78,8 @@ def get_price(symbol, ticker):
             or np.isnan(ticker.price.get(symbol).get('regularMarketPreviousClose'))):
         raise ValueError('no price - ' + symbol)
     price = ticker.price.get(symbol).get('regularMarketPreviousClose')
+    if price <= 0.05:
+        raise ValueError('penny stock - ' + symbol)
     return price
 
 
