@@ -14,12 +14,12 @@ import db
 from scale import scale
 
 # https://www.bankofcanada.ca/rates/interest-rates/corra/
-# updated July 13, 2024
-CANADA_RISK_FREE_RATE = 4.5300
+# updated April 16th, 2025
+CANADA_RISK_FREE_RATE = 2.7600
 # 1Y rate of return for S&P/TSX Composite Index
 # https://ycharts.com/indices/%5ETSX
-# updated August 26th, 2024
-TSX_EXPECTED_RETURN = 20.98
+# updated April 16th, 2025
+TSX_EXPECTED_RETURN = 10.94
 
 
 async def get_companies():
